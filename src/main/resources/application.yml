@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: north-proto-app
+
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: llama3.1
+      embedding:
+        options:
+          model: nomic-embed-text
+    vectorstore:
+      qdrant:
+        host: localhost
+        port: 6334
+        collection-name: north_docs
+        initialize-schema: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+
+logging:
+  level:
+    org.springframework.ai: DEBUG
+    io.qdrant: DEBUG
